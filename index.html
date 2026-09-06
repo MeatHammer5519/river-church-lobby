@@ -28,11 +28,17 @@
 
 <body>
 
-<iframe
-  id="canva"
-  src="https://www.canva.com/design/DAHLMJkPHo8/F8oIsZCX53OkljhjpVIDdQ/view?embed"
-  allowfullscreen>
-</iframe>
+<video
+  id="lobbyVideo"
+  autoplay
+  muted
+  loop
+  playsinline
+  style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; background: black;"
+>
+  <source src="Copy%20of%20Blessed%20Sermon%20Series.mp4" type="video/mp4">
+</video>
+  
 <script>
   function scheduleSundayRefresh() {
     const now = new Date();
