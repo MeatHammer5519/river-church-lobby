@@ -33,6 +33,30 @@
   src="https://www.canva.com/design/DAHLMJkPHo8/F8oIsZCX53OkljhjpVIDdQ/view?embed"
   allowfullscreen>
 </iframe>
+<script>
+  function scheduleSundayRefresh() {
+    const now = new Date();
+    const next = new Date(now);
 
+    // Next Sunday at 5:00 AM
+    let daysUntilSunday = (7 - now.getDay()) % 7;
+
+    next.setDate(now.getDate() + daysUntilSunday);
+    next.setHours(5, 0, 0, 0);
+
+    // If it's already past 5 AM Sunday, schedule next Sunday
+    if (next <= now) {
+      next.setDate(next.getDate() + 7);
+    }
+
+    const delay = next.getTime() - now.getTime();
+
+    setTimeout(function () {
+      location.reload();
+    }, delay);
+  }
+
+  scheduleSundayRefresh();
+</script>
 </body>
 </html>
