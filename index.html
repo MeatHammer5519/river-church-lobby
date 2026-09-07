@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>River Church Lobby</title>
 
   <style>
@@ -15,54 +16,92 @@
       background: black;
     }
 
-    iframe {
+    #slide {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      border: 0;
+      object-fit: contain;
+      background: black;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+    }
+
+    #slide.fade {
+      opacity: 0;
     }
   </style>
 </head>
 
 <body>
 
-<video
-  id="lobbyVideo"
-  autoplay
-  muted
-  loop
-  playsinline
-  style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; background: black;"
->
-  <source src="lobby-firetv.mp4" type="video/mp4">
-</video>
-  
+<img id="slide" src="Welcome.png">
+
 <script>
-  function scheduleSundayRefresh() {
-    const now = new Date();
-    const next = new Date(now);
+  var slides = [
+    "Welcome.png",
+    "Vision%20Statement.png",
+    "Harvest%20party.png",
+    "Give.png",
+    "Small%20Groups.png",
+    "Update.png",
+    "Mission.png",
+    "Give.png"
+  ];
 
-    // Next Sunday at 5:00 AM
-    let daysUntilSunday = (7 - now.getDay()) % 7;
+  var currentSlide = 0;
+  var slide = document.getElementById("slide");
 
-    next.setDate(now.getDate() + daysUntilSunday);
-    next.setHours(5, 0, 0, 0);
+  function nextSlide() {
 
-    // If it's already past 5 AM Sunday, schedule next Sunday
-    if (next <= now) {
-      next.setDate(next.getDate() + 7);
-    }
+    slide.className = "fade";
 
-    const delay = next.getTime() - now.getTime();
+    setTimeout(function() {
 
-    setTimeout(function () {
-      location.reload();
-    }, delay);
+      currentSlide = (currentSlide + 1) % slides.length;
+
+      slide.src = slides[currentSlide];
+
+      setTimeout(function() {
+        slide.className = "";
+      }, 100);
+
+    }, 1000);
   }
 
-  scheduleSundayRefresh();
+  setInterval(nextSlide, 7000);
+
+
+  // Reload the page every Sunday shortly after 5:00 AM
+  // so newly uploaded slides are picked up.
+
+  var lastRefreshDate = "";
+
+  setInterval(function() {
+
+    var now = new Date();
+
+    if (
+      now.getDay() === 0 &&
+      now.getHours() === 5 &&
+      now.getMinutes() < 5
+    ) {
+
+      var today =
+        now.getFullYear() + "-" +
+        now.getMonth() + "-" +
+        now.getDate();
+
+      if (lastRefreshDate !== today) {
+        lastRefreshDate = today;
+        location.reload(true);
+      }
+    }
+
+  }, 60000);
+
 </script>
+
 </body>
 </html>
