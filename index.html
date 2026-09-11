@@ -63,33 +63,10 @@ function nextSlide() {
   setInterval(nextSlide, 7000);
 
 
-  // Reload the page every Sunday shortly after 5:00 AM
-  // so newly uploaded slides are picked up.
-
-  var lastRefreshDate = "";
-
-  setInterval(function() {
-
-    var now = new Date();
-
-    if (
-      now.getDay() === 0 &&
-      now.getHours() === 5 &&
-      now.getMinutes() < 5
-    ) {
-
-      var today =
-        now.getFullYear() + "-" +
-        now.getMonth() + "-" +
-        now.getDate();
-
-      if (lastRefreshDate !== today) {
-        lastRefreshDate = today;
-        location.reload(true);
-      }
-    }
-
-  }, 60000);
+// Reload the page once every 24 hours
+setInterval(function() {
+  location.reload(true);
+}, 86400000);
 
 </script>
 
